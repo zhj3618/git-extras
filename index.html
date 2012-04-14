@@ -1,0 +1,555 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Git-extras by zhj3618</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Git-extras</h1>
+        <p>GIT utilities -- repo summary, repl, changelog population, author commit percentages and more</p>
+        <p class="view"><a href="https://github.com/zhj3618/git-extras">View the Project on GitHub <small>zhj3618/git-extras</small></a></p>
+        <ul>
+          <li><a href="https://github.com/zhj3618/git-extras/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/zhj3618/git-extras/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/zhj3618/git-extras">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Git Extras</h1>
+
+<p>Little git extras.</p>
+
+<h2>Installation</h2>
+
+<p>Clone / Tarball:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>make install
+</pre>
+</div>
+
+
+<p>One-liner:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>curl <a href="https://raw.github.com/visionmedia/git-extras/master/bin/git-extras">https://raw.github.com/visionmedia/git-extras/master/bin/git-extras</a> | <span class="nv">INSTALL</span><span class="o">=</span>y sh
+</pre>
+</div>
+
+
+<p><a href="http://www.macports.org/">MacPorts</a></p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>sudo port install git-extras
+</pre>
+</div>
+
+
+<p><a href="github.com/mxcl/homebrew/">Brew</a> (buggy):</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>brew install git-extras
+</pre>
+</div>
+
+
+<h2>Commands</h2>
+
+<ul>
+<li><code>git extras</code></li>
+<li><code>git squash</code></li>
+<li><code>git summary</code></li>
+<li><code>git effort</code></li>
+<li><code>git changelog</code></li>
+<li><code>git commits-since</code></li>
+<li><code>git count</code></li>
+<li><code>git create-branch</code></li>
+<li><code>git delete-branch</code></li>
+<li><code>git delete-submodule</code></li>
+<li><code>git delete-tag</code></li>
+<li><code>git fresh-branch</code></li>
+<li><code>git graft</code></li>
+<li><code>git alias</code></li>
+<li><code>git ignore</code></li>
+<li><code>git release</code></li>
+<li><code>git contrib</code></li>
+<li><code>git repl</code></li>
+<li><code>git undo</code></li>
+<li><code>git gh-pages</code></li>
+<li><code>git setup</code></li>
+<li><code>git touch</code></li>
+<li><code>git feature</code></li>
+<li><code>git refactor</code></li>
+<li><code>git bug</code></li>
+<li><code>git promote</code></li>
+<li><code>git local-commits</code></li>
+</ul><h2>extras</h2>
+
+<p>The main <code>git-extras</code> command.</p>
+
+<p>Output the current <code>--version</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git extras
+</pre>
+</div>
+
+
+<p>List available commands:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git extras --help
+</pre>
+</div>
+
+
+<p>Update to the latest <code>git-extras</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git extras update
+</pre>
+</div>
+
+
+<h2>gh-pages</h2>
+
+<p>Sets up the <code>gh-pages</code> branch.  (See <a href="http://pages.github.com/">GitHub Pages</a> documentation.)</p>
+
+<h2>git-[feature|refactor|bug] [finish] &lt;name&gt;</h2>
+
+<p>Create the given feature, refactor, or bug branch <code>name</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git feature dependencies
+</pre>
+</div>
+
+
+<p>Afterwards, the same command will check it out:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git checkout master
+<span class="nv">$ </span>git feature dependencies
+</pre>
+</div>
+
+
+<p>When finished, we can <code>feature finish</code> to merge it into the current branch:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git checkout master
+<span class="nv">$ </span>git feature finish dependencies
+</pre>
+</div>
+
+
+<p>All of this works with <code>feature</code>, <code>bug</code>, or <code>refactor</code>.</p>
+
+<h2>git-contrib &lt;author&gt;</h2>
+
+<p>Output <code>author</code>'s contributions to a project:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git contrib visionmedia
+visionmedia <span class="o">(</span>18<span class="o">)</span>:
+  Export STATUS_CODES
+  Replaced several Array.prototype.slice.call<span class="o">()</span> calls with Array.prototype.unshift.call<span class="o">()</span>
+  Moved <span class="nb">help </span>msg to node-repl
+  Added multiple arg support <span class="k">for </span>sys.puts<span class="o">()</span>, print<span class="o">()</span>, etc.
+  Fix stack output on socket error
+  ...
+</pre>
+</div>
+
+
+<h2>git-summary</h2>
+
+<p>Outputs a repo summary:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git summary
+
+project: git-extras
+commits: 163
+files  : 93
+authors: 
+   97   Tj Holowaychuk          59.5%
+   37   Jonhnny Weslley         22.7%
+    8   Kenneth Reitz           4.9%
+    5   Aggelos Orfanakos       3.1%
+    3   Jonathan <span class="s2">"Duke"</span> Leto    1.8%
+    2   Gert Van Gool           1.2%
+    2   Domenico Rotiroti       1.2%
+    2   Devin Withers           1.2%
+    2   TJ Holowaychuk          1.2%
+    1   Nick Campbell           0.6%
+    1   Alex McHale             0.6%
+    1   Jason Young             0.6%
+    1   Jens K. Mueller         0.6%
+    1   Guillermo Rauch         0.6%
+</pre>
+</div>
+
+
+<p>This command can also take a <em>commitish</em>, and will print a summary for commits in 
+the commmitish range:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git summary v42..
+</pre>
+</div>
+
+
+<h2>git-effort [file ....]</h2>
+
+<p>Displays "effort" statistics, currently just the number of commits per file, showing highlighting where the most activity is. The "active days" column is the total number of days which contributed modifications to this file.</p>
+
+<pre><code>node (master): git effort --above 15 {src,lib}/*
+</code></pre>
+
+<p><img src="http://f.cl.ly/items/0b0w0S2K1d100e2T1a0D/Screen%20Shot%202012-02-08%20at%206.43.34%20PM.png" alt="git effort"></p>
+
+<p>If you wish to ignore files with commits <code>&lt;=</code> a value you may use <code>--above</code>:</p>
+
+<pre><code>$ git effort --above 5
+</code></pre>
+
+<h2>git-repl</h2>
+
+<p>GIT read-eval-print-loop:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git repl
+
+git&gt; ls-files
+History.md
+Makefile
+Readme.md
+bin/git-changelog
+bin/git-count
+bin/git-delete-branch
+bin/git-delete-tag
+bin/git-ignore
+bin/git-release
+
+git&gt; quit
+</pre>
+</div>
+
+
+<p>By default <code>git ls-files</code> is used, however you may pass one or more files to <code>git-effort(1)</code>, for example:</p>
+
+<pre><code>$ git effort bin/* lib/*
+</code></pre>
+
+<h2>git-commits-since [date]</h2>
+
+<p>List commits since <code>date</code> (defaults to "last week"):</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git commits-since
+... changes since last week
+TJ Holowaychuk - Fixed readme
+TJ Holowaychuk - Added git-repl
+TJ Holowaychuk - Added git-delete-tag
+TJ Holowaychuk - Added git-delete-branch
+
+<span class="nv">$ </span>git commits-since yesterday
+... changes since yesterday
+TJ Holowaychuk - Fixed readme
+</pre>
+</div>
+
+
+<h2>git-count</h2>
+
+<p>Output commit count:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git count
+
+total 1844
+</pre>
+</div>
+
+
+<p>Output detailed commit count:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git count --all
+
+visionmedia <span class="o">(</span>1285<span class="o">)</span>
+Tj Holowaychuk <span class="o">(</span>430<span class="o">)</span>
+Aaron Heckmann <span class="o">(</span>48<span class="o">)</span>
+csausdev <span class="o">(</span>34<span class="o">)</span>
+ciaranj <span class="o">(</span>26<span class="o">)</span>
+Guillermo Rauch <span class="o">(</span>6<span class="o">)</span>
+Brian McKinney <span class="o">(</span>2<span class="o">)</span>
+Nick Poulden <span class="o">(</span>2<span class="o">)</span>
+Benny Wong <span class="o">(</span>2<span class="o">)</span>
+Justin Lilly <span class="o">(</span>1<span class="o">)</span>
+isaacs <span class="o">(</span>1<span class="o">)</span>
+Adam Sanderson <span class="o">(</span>1<span class="o">)</span>
+Viktor Kelemen <span class="o">(</span>1<span class="o">)</span>
+Gregory Ritter <span class="o">(</span>1<span class="o">)</span>
+Greg Ritter <span class="o">(</span>1<span class="o">)</span>
+ewoudj <span class="o">(</span>1<span class="o">)</span>
+James Herdman <span class="o">(</span>1<span class="o">)</span>
+Matt Colyer <span class="o">(</span>1<span class="o">)</span>
+
+total 1844
+</pre>
+</div>
+
+
+<h2>git-release</h2>
+
+<p>Release commit with the given &lt;tag&gt;:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git release 0.1.0
+</pre>
+</div>
+
+
+<p>Does the following:</p>
+
+<ul>
+<li>Executes <em>.git/hooks/pre-release.sh</em> (if present)</li>
+<li>Commits changes (to changelog etc) with message "Release &lt;tag&gt;"</li>
+<li>Tags with the given &lt;tag&gt;</li>
+<li>Push the branch / tags</li>
+<li>Executes <em>.git/hooks/post-release.sh</em> (if present)</li>
+</ul><h2>git-alias</h2>
+
+<p>Define, search and show aliases.</p>
+
+<p>Define a new alias:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git <span class="nb">alias </span>last <span class="s2">"cat-file commit HEAD"</span>
+</pre>
+</div>
+
+
+<p>Search for aliases that match a pattern (one argument):</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git <span class="nb">alias</span> ^la
+<span class="nv">last</span> <span class="o">=</span> cat-file commit HEAD
+</pre>
+</div>
+
+
+<p>Show all aliases (no arguments):</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git <span class="nb">alias</span>
+<span class="nv">s</span> <span class="o">=</span> status
+<span class="nv">amend</span> <span class="o">=</span> commit --amend
+<span class="nv">rank</span> <span class="o">=</span> shortlog -sn --no-merges
+<span class="nv">whatis</span> <span class="o">=</span> show -s --pretty<span class="o">=</span><span class="s1">'tformat:%h (%s, %ad)'</span> --date<span class="o">=</span>short
+<span class="nv">whois</span> <span class="o">=</span> !sh -c <span class="err">'</span>git log -i -1 --pretty<span class="o">=</span><span class="err">"</span>format:%an &lt;%ae&gt;
+</pre>
+</div>
+
+
+<h2>git-ignore [pattern ...]</h2>
+
+<p>Too lazy to open up <code>.gitignore</code>?  Me too!</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git ignore build <span class="s2">"*.o"</span> <span class="s2">"*.log"</span>
+... added <span class="s1">'build'</span>
+... added <span class="s1">'*.o'</span>
+... added <span class="s1">'*.log'</span>
+</pre>
+</div>
+
+
+<p>Add patterns from an existing template:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git ignore -t rails
+</pre>
+</div>
+
+
+<p>Without any patterns, <code>git-ignore</code> displays currently ignored patterns:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git ignore
+build
+*.o
+*.log
+</pre>
+</div>
+
+
+<h2>git-create-branch &lt;name&gt;</h2>
+
+<p>Create local and remote branch <code>name</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git create-branch development
+</pre>
+</div>
+
+
+<h2>git-delete-branch &lt;name&gt;</h2>
+
+<p>Delete local and remote branch <code>name</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git delete-branch integration
+</pre>
+</div>
+
+
+<h2>git-delete-submodule &lt;name&gt;</h2>
+
+<p>Delete submodule <code>name</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git delete-submodule lib/foo
+</pre>
+</div>
+
+
+<h2>git-delete-tag &lt;name&gt;</h2>
+
+<p>Delete local and remote tag <code>name</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git delete-tag 0.0.1
+</pre>
+</div>
+
+
+<h2>git-fresh-branch &lt;name&gt;</h2>
+
+<p>Create empty local branch <code>name</code>:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git fresh-branch docs
+</pre>
+</div>
+
+
+<h2>git-graft &lt;src-branch&gt; [dest-branch]</h2>
+
+<p>Merge commits from <code>src-branch</code> into <code>dest-branch</code>. (<code>dest-branch</code> defaults to <code>master</code>.)</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git graft new_feature dev
+<span class="nv">$ </span>git graft new_feature
+</pre>
+</div>
+
+
+<h2>git-squash &lt;src-branch&gt; [msg]</h2>
+
+<p>Merge commits from <code>src-branch</code> into the current branch as a <em>single</em> commit. When <code>[msg]</code> is given <code>git-commit(1)</code> will be invoked with that message. This is useful when small individual commits within a topic branch are irrelevant and you want to consider the topic as a single change.</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git squash fixed-cursor-styling
+<span class="nv">$ </span>git squash fixed-cursor-styling <span class="s2">"Fixed cursor styling"</span>
+</pre>
+</div>
+
+
+<h2>git-changelog</h2>
+
+<p>Populate a file whose name matches <code>change|history -i_</code> with commits
+since the previous tag.  (If there are no tags, populates commits since the project began.) </p>
+
+<p>Opens the changelog in <code>$EDITOR</code> when set.</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git changelog <span class="o">&amp;&amp;</span> cat History.md
+
+n.n.n / 2010-08-05
+<span class="o">==================</span>
+
+* Docs <span class="k">for </span>git-ignore. Closes <span class="c">#3</span>
+* Merge branch <span class="s1">'ignore'</span>
+* Added git-ignore
+* Fixed &lt;tag&gt; in docs
+* Install docs
+* Merge branch <span class="s1">'release'</span>
+* Added git-release
+* Passing args to git shortlog
+* Added --all support to git-count
+* Initial commit
+</pre>
+</div>
+
+
+<p>List commits:</p>
+
+<div class="highlight">
+<pre><span class="nv">$ </span>git changelog --list
+
+* Docs <span class="k">for </span>git-ignore. Closes <span class="c">#3</span>
+* Merge branch <span class="s1">'ignore'</span>
+* Added git-ignore
+* Fixed &lt;tag&gt; in docs
+* Install docs
+* Merge branch <span class="s1">'release'</span>
+* Added git-release
+* Passing args to git shortlog
+* Added --all support to git-count
+* Initial commit
+</pre>
+</div>
+
+
+<h2>git-undo</h2>
+
+<p>Remove the latest commit:</p>
+
+<div class="highlight">
+<pre>git undo
+</pre>
+</div>
+
+
+<p>Remove the latest 3 commits:</p>
+
+<div class="highlight">
+<pre>git undo 3
+</pre>
+</div>
+
+
+<h2>git-setup [dir]</h2>
+
+<p>Set up a git repository (if one doesn't exist), add all files, and make an initial commit. <code>dir</code> defaults to the current working directory.</p>
+
+<h2>git-touch [filename]</h2>
+
+<p>Call <code>touch</code> on the given file, and add it to the current index. One-step creation of new files.</p>
+
+<h2>git-local-commits</h2>
+
+<p>List all commits on the local branch that have not yet been sent to origin. Any additional arguments will be passed directly to git log.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/zhj3618">zhj3618</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
